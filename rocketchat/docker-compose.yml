@@ -1,0 +1,31 @@
+db:
+  image: mongo
+  restart: always
+  command: --smallfiles
+rocket:
+  image: rocket.chat
+  restart: always
+  environment:
+    ROOT_URL: http://rocketchat.jacklam.it
+    VIRTUAL_HOST: rocketchat.jacklam.it
+    VIRTUAL_PORT: 3000
+  links:
+    - db
+  expose:
+    - "3000"
+bot:
+  image: rocketchat/hubot-rocketchat
+  restart: always
+  links:
+    - rocket:rocketchat
+  volumes:
+    - ./scripts:/home/hubot/scripts
+  environment:
+    ROCKETCHAT_URL: http://rocketchat:3000
+    ROCKETCHAT_ROOM: ''
+    LISTEN_ON_ALL_PUBLIC: 'true'
+    ROCKETCHAT_USER: hubot
+    ROCKETCHAT_PASSWORD: hubot
+    ROCKETCHAT_AUTH: password
+    BOT_NAME: hubot
+    EXTERNAL_SCRIPTS: hubot-diagnostics,hubot-help,hubot-google-images,hubot-google-translate,hubot-pugme,hubot-maps,hubot-rules,hubot-shipit
