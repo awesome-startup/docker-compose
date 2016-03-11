@@ -1,0 +1,8 @@
+etcd:
+  image: microbox/etcd
+  restart: always
+  environment:
+    - VIRTUAL_HOST=etcd.darg.ws
+    - VIRTUAL_PORT=4001
+  command:
+    -name discovery
