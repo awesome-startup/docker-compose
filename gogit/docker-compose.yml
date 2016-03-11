@@ -1,0 +1,12 @@
+data:
+  image: gogs/gogs
+  entrypoint: /bin/true
+app:
+  image: gogs/gogs
+  volumes_from:
+    - data
+  ports:
+    - "10022:22"
+  environment:
+    - VIRTUAL_HOST=gogit.jacklam.it
+    - VIRTUAL_PORT=3000
