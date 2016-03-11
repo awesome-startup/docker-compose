@@ -1,0 +1,30 @@
+rethinkdb:
+  image: rethinkdb
+  restart: always
+manager:
+  image: swarm
+  restart: always
+  command:
+    manage --host tcp://0.0.0.0:4000 etcd://etcd.darg.ws
+controller:
+  image: shipyard/shipyard:latest
+  restart: always
+  ports: 
+    - "9000:8080"
+  links:
+    - manager:swarm
+    - rethinkdb
+  command:
+    server -d tcp://swarm:4000
+proxy:
+    image: ehazlett/docker-proxy:latest
+    command: -i
+    restart: always
+    ports:
+      - "2375:2375"
+    volumes:
+        - "/var/run/docker.sock:/var/run/docker.sock"
+swarm:
+  image: swarm
+  command:
+    join --advertise 192.168.99.100:2375 etcd://etcd.darg.ws
