@@ -1,0 +1,9 @@
+version: '2'
+services:
+  app:
+    build: .
+    restart: always
+    stdin_open: true
+    environment:
+      - VIRTUAL_HOST=bel.dev.darg.ws
+      - VIRTUAL_PORT=80
