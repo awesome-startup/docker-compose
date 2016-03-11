@@ -1,0 +1,19 @@
+manager:
+  image: swarm
+  restart: always
+  ports:
+    - 4000:4000
+  command:
+    manage --host tcp://0.0.0.0:4000 etcd://etcd.darg.ws
+proxy:
+    image: ehazlett/docker-proxy:latest
+    command: -i
+    restart: always
+    ports:
+      - "2375:2375"
+    volumes:
+        - "/var/run/docker.sock:/var/run/docker.sock"
+swarm:
+  image: swarm
+  command:
+    join --advertise 192.168.99.100:2375 etcd://etcd.darg.ws
