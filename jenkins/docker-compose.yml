@@ -1,0 +1,9 @@
+version: '2'
+services:
+  app:
+    image: jenkins
+    restart: always
+    ports:
+     - "8085:8080"
+    volumes:
+     - ./data:/var/jenkins_home
