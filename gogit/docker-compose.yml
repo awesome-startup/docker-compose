@@ -7,6 +7,15 @@ app:
     - data
   ports:
     - "10022:22"
+  links: 
+    - db
   environment:
     - VIRTUAL_HOST=gogit.jacklam.it
     - VIRTUAL_PORT=3000
+db:
+  image: mysql
+  environment:
+    MYSQL_ROOT_PASSWORD: root
+    MYSQL_DATABASE: symfony
+    MYSQL_USER: root
+    MYSQL_PASSWORD: root
