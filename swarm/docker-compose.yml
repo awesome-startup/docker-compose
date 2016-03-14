@@ -16,4 +16,4 @@ proxy:
 swarm:
   image: swarm
   command:
-    join --advertise 192.168.99.100:2375 etcd://etcd.darg.ws
+    join --advertise 192.168.99.106:2375 etcd://etcd.darg.ws

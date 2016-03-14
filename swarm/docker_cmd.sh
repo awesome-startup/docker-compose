@@ -20,10 +20,10 @@ docker run \
     
 docker-machine create \
     -d virtualbox \
-    --engine-env DOCKER_TLS=no \
     --engine-opt="cluster-store=etcd://etcd.darg.ws" \
     --engine-opt="cluster-advertise=eth1:2376" \
-    swarm-agent-1
+    swarm-agent
+    
     
     
 docker --tlscacert="/Users/llitfkitfk/.docker/machine/certs/ca.pem" \
