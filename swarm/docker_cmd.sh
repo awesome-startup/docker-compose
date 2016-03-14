@@ -1,3 +1,5 @@
+export DOCKER_HOST=$(docker-machine ip default):4000
+
 docker run \
     -ti \
     -d \
