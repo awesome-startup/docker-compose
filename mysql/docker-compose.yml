@@ -1,0 +1,7 @@
+db:
+  image: mysql
+  environment:
+    MYSQL_ROOT_PASSWORD: XcZFnc8Y3znALs
+    MYSQL_DATABASE: db-demo
+    MYSQL_USER: root
+    MYSQL_PASSWORD: XcZFnc8Y3znALs
