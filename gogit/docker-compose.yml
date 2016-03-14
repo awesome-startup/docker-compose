@@ -10,7 +10,7 @@ app:
   links: 
     - db
   environment:
-    - VIRTUAL_HOST=gogit.jacklam.it
+    - VIRTUAL_HOST=gogit.darg.ws
     - VIRTUAL_PORT=3000
 db:
   image: mysql
