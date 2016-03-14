@@ -1,0 +1,44 @@
+version: '2'
+services:
+  db1:
+    image: mysql
+    container_name: db1
+    ports: 
+      - "3306:3306"
+    expose: 
+      - 3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root1
+      - MYSQL_DATABASE=db-demo
+      - MYSQL_USER=root1
+      - MYSQL_PASSWORD=root1
+      - TCP_PORTS=3306 
+      - "constraint:node==docker1"
+  db2:
+    image: mysql
+    container_name: db2
+    ports: 
+      - "3306:3306"
+    expose: 
+      - 3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root2
+      - MYSQL_DATABASE=db-demo
+      - MYSQL_USER=root2
+      - MYSQL_PASSWORD=root2
+      - TCP_PORTS=3306 
+      - "constraint:node==docker2"
+#   haproxy:
+#     image: tutum/haproxy
+#     environment:
+#       - "constraint:node==docker1"
+#     links:
+#       - db1
+#       - db2
+#     ports:
+#       - "3306:3306"
+networks:
+  default:
+    external:
+      name: test-overlay
+  
