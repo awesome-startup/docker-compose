@@ -1,0 +1,4 @@
+app:
+    build: nginx
+    volumes: 
+      - ./var:/var/www
