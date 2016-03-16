@@ -1,0 +1,22 @@
+versions: '2'
+services:
+  nginx:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+    volumes_from: 
+      - data
+    volumes:
+      - ./certs:/etc/nginx/certs:rw
+      - /etc/nginx/vhost.d
+      - /usr/share/nginx/html
+      - volume-data:/etc/test-volume
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+volumes:
+  volume-data:
+    external:
+      name: previous-create-volumes
+  nginx-data:
+    driver: local    
