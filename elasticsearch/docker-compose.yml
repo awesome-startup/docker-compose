@@ -1,0 +1,10 @@
+elasticsearch:
+  image: elasticsearch:1.6
+  restart: always
+  ports: 
+    - "9200:9200"
+    - "9300:9300"
+  environment:
+    - VIRTUAL_HOST=es.d1.darg.ws
+    - VIRTUAL_PORT=9200
+    - "constraint:node==docker1"
