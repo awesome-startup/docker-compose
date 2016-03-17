@@ -1,10 +1,30 @@
 elasticsearch:
-  image: elasticsearch:1.6
+  image: elasticsearch
   restart: always
   ports: 
     - "9200:9200"
     - "9300:9300"
+  volumes:
+    - ./data/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
   environment:
     - VIRTUAL_HOST=es.d1.darg.ws
     - VIRTUAL_PORT=9200
     - "constraint:node==docker1"
+  command: elasticsearch
+# elasticsearch-1:
+#      image: elasticsearch
+#      container_name: elasticsearch-1
+#      ports:
+#         - "9200:9200"
+#         - "9300:9300"
+#      volumes:
+#         - ./data/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+#      command: elasticsearch
+
+kibana-frontend:
+     image: kibana:latest
+     container_name: kibana-frontend
+     ports:
+        - "5601:5601"
+     links:
+       - elasticsearch:elasticsearch
