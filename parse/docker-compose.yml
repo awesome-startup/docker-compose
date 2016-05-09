@@ -1,23 +1,23 @@
-server:
-  build: server
-  restart: always
-  volumes:
-    - ./server/server-config.json:/parse/server-config.json 
-  ports: 
-    - "8081:1337"
-  links: 
-    - db:mongo
-  command: server-config.json
-dashboard:
-  build: dashboard
-  restart: always
-  ports: 
-    - "8082:4040"
-  volumes:
-    - ./dashboard/dashboard-config.json:/dashboard/dashboard-config.json
-  links: 
-    - server:server
-  command: --config dashboard-config.json --allowInsecureHTTP true   
+# server:
+#   build: server
+#   restart: always
+#   volumes:
+#     - ./server/server-config.json:/parse/server-config.json 
+#   ports: 
+#     - "8081:1337"
+#   links: 
+#     - db:mongo
+#   command: server-config.json
+# dashboard:
+#   build: dashboard
+#   restart: always
+#   ports: 
+#     - "8082:4040"
+#   volumes:
+#     - ./dashboard/dashboard-config.json:/dashboard/dashboard-config.json
+#   links: 
+#     - server:server
+#   command: --config dashboard-config.json --allowInsecureHTTP true   
 db:
   image: mongo
   ports: 
@@ -30,5 +30,5 @@ both:
     - "8084:4040"
     - "8083:1337"
   volumes:
-    - ./dashboard/dashboard-config.json:/parse/dashboard-config.json
-    - ./server/server-config.json:/parse/server-config.json 
+    - ./both/dashboard-config.json:/parse/dashboard-config.json
+    - ./both/server-config.json:/parse/server-config.json 

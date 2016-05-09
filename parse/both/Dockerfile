@@ -4,7 +4,8 @@ FROM node
 
 WORKDIR /parse
 
-RUN npm install -g parse-server parse-dashboard
+RUN npm install -g parse-server@2.2.6 
+RUN npm install -g parse-dashboard@1.0.7
 
 ADD init.sh /parse
 
