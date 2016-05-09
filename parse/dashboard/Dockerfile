@@ -1,12 +1,12 @@
 FROM node
 
+RUN npm install -g parse-dashboard
+
+
 WORKDIR /dashboard
 
-ADD package.json /dashboard
-
-RUN npm install
-
+ENTRYPOINT ["parse-dashboard"]
 
 EXPOSE 4040
 
-CMD [ "npm", "start" ]
+CMD ["-h"]

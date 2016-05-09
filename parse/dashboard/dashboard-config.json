@@ -1,0 +1,23 @@
+{
+    "apps": [
+        {
+            "serverURL": "http://0.0.0.0:1337/parse",
+            "appId": "X4jwAIMI2sCuH99ueEI4c8LdTbgnkrR4u5kSqsc8",
+            "masterKey": "43p7s64k54z9uOKgztcC23CXx0cAM6RbdXObWfVt",
+            "appName": "parse"
+        },
+        {
+            "serverURL": "http://0.0.0.0:1337/parse",
+            "appId": "X4jwAIMI2sCuH99ueEI4c8LdTbgnkrR4u5kSqsc8",
+            "masterKey": "43p7s64k54z9uOKgztcC23CXx0cAM6RbdXObWfVt",
+            "appName": "pro",
+            "production": true
+        }
+    ],
+    "users": [
+        {
+            "user": "user",
+            "pass": "pass"
+        }
+    ]
+}
