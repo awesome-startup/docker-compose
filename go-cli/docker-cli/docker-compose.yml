@@ -1,0 +1,4 @@
+app:
+  image: centos
+  volumes: 
+    - docker
