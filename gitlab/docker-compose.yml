@@ -1,0 +1,37 @@
+b:
+  image: busybox
+  volumes:
+   - mysql-data:/var/lib/mysql
+   - gitlab-data:/home/git/data
+   - gitlab-log-data:/var/log/gitlab
+mysql:
+  image: sameersbn/mysql:latest
+  environment:
+   - DB_USER=gitlab
+   - DB_PASS=secretpassword
+   - DB_NAME=gitlabhq_production_d
+  volumes_from:
+   - db
+gitlab:
+  image: sameersbn/gitlab:7.8.4
+  links:
+   - redis:redisio
+   - mysql:mysql
+  volumes_from:
+   - db
+  environment:
+   - GITLAB_HOST=git.wizmacau.com
+   - GITLAB_SSH_PORT=10022
+   - SMTP_ENABLED=true
+   - SMTP_HOST=192.168.20.210
+   - SMTP_PASS=bAw8jO0hiN0Relk6eUl6In2tAbr7Iat8
+   - SMTP_USER=edm
+   - SMTP_PORT=587
+   - SMTP_STARTTLS=true
+   - GITLAB_EMAIL=gitlab@smtp.wizmacau.com
+   - SMTP_OPENSSL_VERIFY_MODE=none
+  ports:
+   - "10080:80"
+   - "10022:22"
+redis:
+  image: sameersbn/redis:latest
