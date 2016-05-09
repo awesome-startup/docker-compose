@@ -1,0 +1,8 @@
+version: '2'
+services:
+  app:
+    image: mattermost/platform
+    restart: always
+    environment:
+      - VIRTUAL_HOST=mm.d1.darg.ws
+      - VIRTUAL_PORT=80
