@@ -1,0 +1,18 @@
+{
+    "name": "demo-parse-server",
+    "version": "1.0.0",
+    "description": "Parse Server on Docker",
+    "main": "index.js",
+    "dependencies": {
+        "parse-server": "~2.2.2",
+        "kerberos": "~0.0.x",
+        "express": "~4.11.x",
+        "parse": "~1.8.0"
+    },
+    "scripts": {
+        "start": "node index.js"
+    },
+    "engines": {
+        "node": ">=4.3"
+    }
+}

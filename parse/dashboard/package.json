@@ -1,0 +1,16 @@
+{
+    "name": "demo-parse-dashboard",
+    "version": "1.0.0",
+    "description": "Parse Dashboard on Docker",
+    "main": "index.js",
+    "dependencies": {
+        "parse-dashboard": "~1.0.7",
+        "express": "~4.11.x"
+    },
+    "scripts": {
+        "start": "node index.js"
+    },
+    "engines": {
+        "node": ">=4.3"
+    }
+}

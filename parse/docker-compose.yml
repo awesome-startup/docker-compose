@@ -1,0 +1,29 @@
+server:
+  build: server
+  restart: always
+  environment: 
+    - APP_ID=X4jwAIMI2sCuH99ueEI4c8LdTbgnkrR4u5kSqsc8
+    - MASTER_KEY=43p7s64k54z9uOKgztcC23CXx0cAM6RbdXObWfVt
+    # - DATABASE_URI=mongodb://172.17.0.5:27017/dev
+  ports: 
+    - "8081:8080"
+  links: 
+    - db:mongo
+  stdin_open: true
+dashboard:
+  build: dashboard
+  ports: 
+    - "8082:4040"
+  volumes:
+    - ./dashboard/index.js:/dashboard/index.js
+  environment:
+    - PARSE_DASHBOARD_ALLOW_INSECURE_HTTP=1
+    - APP_ID=X4jwAIMI2sCuH99ueEI4c8LdTbgnkrR4u5kSqsc8
+    - MASTER_KEY=43p7s64k54z9uOKgztcC23CXx0cAM6RbdXObWfVt
+  links: 
+    - server:server   
+db:
+  image: mongo
+  ports: 
+    - "27017:27017"
+    
