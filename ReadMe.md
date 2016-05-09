@@ -9,13 +9,18 @@ eg:
     docker daemon -g /mnt/docker -H fd:// -H unix:///var/run/docker.sock --cluster-store etcd://etcd.darg.ws --cluster-advertise 192.168.20.23:2375
 ```
 
-### clear stopped container
+### cleanup stopped container
 ```
 docker rm $(docker ps -aq)
 ```
 
-### clear no-used volumes
+### cleanup no-used volumes
 
 ```
 docker volume rm $(docker volume ls -q)
+```
+
+### cleanup <none> images
+```
+docker rmi $(docker images | grep '<none>' | awk '{print $3}')
 ```
