@@ -1,7 +1,6 @@
 FROM node
 
-RUN npm install -g parse-dashboard
-
+RUN npm install -g parse-dashboard@1.0.7
 
 WORKDIR /dashboard
 

@@ -4,7 +4,7 @@ FROM node
 
 WORKDIR /parse
 
-RUN npm install -g parse-server
+RUN npm install -g parse-server@2.2.6 
 
 ENTRYPOINT ["parse-server"]
 
