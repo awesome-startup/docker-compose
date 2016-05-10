@@ -2,11 +2,6 @@ hub:
   build: hub
   links: 
     - db:mongo
-  environment: 
-    - PARSE_DASHBOARD_ALLOW_INSECURE_HTTP=1 
-  volumes: 
-    - ./hub/index.js:/parse/index.js
-    - ./hub/package.json:/parse/package.json
   ports: 
     - "8086:4040"
     - "1337:1337"
@@ -21,14 +16,14 @@ hub:
 #   links: 
 #     - db:mongo
 #   command: server-config.json
-dashboard:
-  build: dashboard
-  restart: always
-  ports: 
-    - "8082:4040"
-  volumes:
-    - ./dashboard/dashboard-config.json:/dashboard/dashboard-config.json
-  command: --config dashboard-config.json --allowInsecureHTTP true   
+# dashboard:
+#   build: dashboard
+#   restart: always
+#   ports: 
+#     - "8082:4040"
+#   volumes:
+#     - ./dashboard/dashboard-config.json:/dashboard/dashboard-config.json
+#   command: --config dashboard-config.json --allowInsecureHTTP true   
 db:
   image: mongo
   ports: 

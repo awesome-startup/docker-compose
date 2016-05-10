@@ -5,11 +5,11 @@ var ParseServer = require('parse-server').ParseServer;
 var app = express();
 
 var api = new ParseServer({
-    databaseURI: 'mongodb://@mongo:27017/' + process.env.DB_NAME, // Connection string for your MongoDB database
+    databaseURI: 'mongodb://@mongo:27017/' + process.env.MONGO_DB_NAME, // Connection string for your MongoDB database
     cloud: '/parse/cloud/main.js', // Absolute path to your Cloud Code
-    appId: 'X4jwAIMI2sCuH99ueEI4c8LdTbgnkrR4u5kSqsc8',
-    masterKey: '43p7s64k54z9uOKgztcC23CXx0cAM6RbdXObWfVt', // Keep this key secret!
-    serverURL: 'http://localhost:1337/parse' // Don't forget to change to https if needed
+    appId: process.env.APP_ID,
+    masterKey: process.env.MASTER_KEY, // Keep this key secret!
+    serverURL: 'http://localhost:' + process.env.PARSE_SERVER_PORT + '/parse' // Don't forget to change to https if needed
 });
 
 // Serve the Parse API on the /parse URL prefix
@@ -18,20 +18,19 @@ app.use('/parse', api);
 var dashboard = new ParseDashboard({
     "apps": [
         {
-            "serverURL": "http://192.168.30.73:1337/parse",
-            "appId": "X4jwAIMI2sCuH99ueEI4c8LdTbgnkrR4u5kSqsc8",
-            "masterKey": "43p7s64k54z9uOKgztcC23CXx0cAM6RbdXObWfVt",
-            "appName": "test",
-            "production": true
+            "serverURL": "http://" + process.env.PARSE_PUBLIC_ADDR + ":" + process.env.PARSE_PUBLIC_PORT + "/parse",
+            "appId": process.env.APP_ID,
+            "masterKey": process.env.MASTER_KEY, // Keep this key secret!
+            "appName": "demo"
         }
     ],
     "users": [
         {
-            "user": "user",
-            "pass": "pass"
+            "user": process.env.ADMIN_USER,
+            "pass": process.env.ADMIN_PASS
         }
     ]
-}, true);
+}, process.env.PARSE_DASHBOARD_ALLOW_INSECURE_HTTP);
 
 // make the Parse Dashboard available at /dashboard
 app.use('/dashboard', dashboard);
@@ -39,6 +38,6 @@ app.use('/dashboard', dashboard);
 var httpServer = require('http').createServer(app);
 httpServer.listen(4040);
 
-app.listen(1337, function () {
+app.listen(process.env.PARSE_SERVER_PORT, function () {
     console.log('parse-server-example running on port 1337.');
 });
