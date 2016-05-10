@@ -1,0 +1,18 @@
+{
+    "name": "parse-server-dashboard",
+    "version": "1.0.0",
+    "description": "parse-server parse-dashboard",
+    "main": "index.js",
+    "license": "MIT",
+    "dependencies": {
+        "express": "~4.13.4",
+        "parse-dashboard": "1.0.11",
+        "parse-server": "2.2.8"
+    },
+    "scripts": {
+        "start": "node index.js --allowInsecureHTTP=1"
+    },
+    "engines": {
+        "node": ">=4.3"
+    }
+}

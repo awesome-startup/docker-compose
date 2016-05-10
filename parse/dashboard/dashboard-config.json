@@ -1,11 +1,30 @@
 {
     "apps": [
         {
-            "serverURL": "http://localhost:8081/parse",
+            "serverURL": "http://192.168.30.73:1337/parse",
+            "appId": "X4jwAIMI2sCuH99ueEI4c8LdTbgnkrR4u5kSqsc8",
+            "masterKey": "43p7s64k54z9uOKgztcC23CXx0cAM6RbdXObWfVt",
+            "appName": "test",
+            "production": true
+        },
+        {
+            "serverURL": "http://192.168.30.73:8001/parse",
+            "appId": "X4jwAIMI2sCuH99ueEI4c8LdTbgnkrR4u5kSqsc8",
+            "masterKey": "43p7s64k54z9uOKgztcC23CXx0cAM6RbdXObWfVt",
+            "appName": "dev"
+        },
+        {
+            "serverURL": "http://192.168.30.73:8002/parse",
             "appId": "X4jwAIMI2sCuH99ueEI4c8LdTbgnkrR4u5kSqsc8",
             "masterKey": "43p7s64k54z9uOKgztcC23CXx0cAM6RbdXObWfVt",
             "appName": "pro",
             "production": true
+        },
+        {
+            "serverURL": "http://192.168.30.73:8003/parse",
+            "appId": "X4jwAIMI2sCuH99ueEI4c8LdTbgnkrR4u5kSqsc8",
+            "masterKey": "43p7s64k54z9uOKgztcC23CXx0cAM6RbdXObWfVt",
+            "appName": "demo"
         }
     ],
     "users": [

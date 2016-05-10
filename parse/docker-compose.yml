@@ -1,13 +1,26 @@
-server:
-  build: server
-  restart: always
-  volumes:
-    - ./server/server-config.json:/parse/server-config.json 
-  ports: 
-    - "8081:1337"
+hub:
+  build: hub
   links: 
     - db:mongo
-  command: server-config.json
+  environment: 
+    - PARSE_DASHBOARD_ALLOW_INSECURE_HTTP=1 
+  volumes: 
+    - ./hub/index.js:/parse/index.js
+    - ./hub/package.json:/parse/package.json
+  ports: 
+    - "8086:4040"
+    - "1337:1337"
+  command: npm start
+# server:
+#   build: server
+#   restart: always
+#   volumes:
+#     - ./server/server-config.json:/parse/server-config.json 
+#   ports: 
+#     - "8081:1337"
+#   links: 
+#     - db:mongo
+#   command: server-config.json
 dashboard:
   build: dashboard
   restart: always
@@ -15,20 +28,49 @@ dashboard:
     - "8082:4040"
   volumes:
     - ./dashboard/dashboard-config.json:/dashboard/dashboard-config.json
-  links: 
-    - server:server
   command: --config dashboard-config.json --allowInsecureHTTP true   
 db:
   image: mongo
   ports: 
     - "27017:27017"
-both:
-  build: both
-  links: 
-    - db:mongo 
-  ports: 
-    - "8084:4040"
-    - "8083:1337"
-  volumes:
-    - ./both/dashboard-config.json:/parse/dashboard-config.json
-    - ./both/server-config.json:/parse/server-config.json 
+# both:
+#   build: both
+#   links: 
+#     - db:mongo 
+#   ports: 
+#     - "8084:4040"
+#     - "8083:1337"
+#   volumes:
+#     - ./both/dashboard-config.json:/parse/dashboard-config.json
+#     - ./both/server-config.json:/parse/server-config.json 
+   
+# server-dev:
+#   build: server
+#   restart: always
+#   volumes:
+#     - ./server/server-config.json:/parse/server-config.json 
+#   ports: 
+#     - "8001:1337"
+#   links: 
+#     - db:mongo
+#   command: server-config.json 
+# server-pro:
+#   build: server
+#   restart: always
+#   volumes:
+#     - ./server/server-config.json:/parse/server-config.json 
+#   ports: 
+#     - "8002:1337"
+#   links: 
+#     - db:mongo
+#   command: server-config.json 
+# server-demo:
+#   build: server
+#   restart: always
+#   volumes:
+#     - ./server/server-config.json:/parse/server-config.json 
+#   ports: 
+#     - "8003:1337"
+#   links: 
+#     - db:mongo
+#   command: server-config.json 
