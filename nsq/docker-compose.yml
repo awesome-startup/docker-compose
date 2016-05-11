@@ -1,0 +1,24 @@
+lookupd:
+  image: nsqio/nsq
+  ports: 
+    - "4160:4160"
+    - "4161:4161"
+  command: /nsqlookupd
+nsqd:
+  image: nsqio/nsq
+  ports: 
+    - "4150:4150"
+    - "4151:4151"
+  links: 
+    - lookupd
+  command: /nsqd --broadcast-address=nsqd --lookupd-tcp-address=lookupd:4160  
+nsqadmin:
+  image: nsqio/nsq
+  links: 
+    - lookupd
+  ports: 
+    - "4170:4170"
+    - "4171:4171"
+  links: 
+    - lookupd
+  command: /nsqadmin --lookupd-http-address=lookupd:4161
