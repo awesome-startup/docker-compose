@@ -1,71 +1,25 @@
-hub:
-  build: hub
+server:
+  image: dockerepo/parse-server
+  restart: always 
+  environment: 
+    - MONGO_DB_NAME=dev
+    - APP_ID=X4jwAIMI2sCuH99ueEI4c8LdTbgnkrR4u5kSqsc8
+    - MASTER_KEY=43p7s64k54z9uOKgztcC23CXx0cAM6RbdXObWfVt
+  ports: 
+    - "9001:1337"
   links: 
     - db:mongo
+dashboard:
+  image: dockerepo/parse-dashboard
+  restart: always
+  environment: 
+    - PARSE_PUBLIC_ADDR=192.168.20.24
+    - PARSE_PUBLIC_PORT=9001
+    - APP_ID=X4jwAIMI2sCuH99ueEI4c8LdTbgnkrR4u5kSqsc8
+    - MASTER_KEY=43p7s64k54z9uOKgztcC23CXx0cAM6RbdXObWfVt
   ports: 
-    - "8086:4040"
-    - "1337:1337"
-  command: npm start
-# server:
-#   build: server
-#   restart: always
-#   volumes:
-#     - ./server/server-config.json:/parse/server-config.json 
-#   ports: 
-#     - "8081:1337"
-#   links: 
-#     - db:mongo
-#   command: server-config.json
-# dashboard:
-#   build: dashboard
-#   restart: always
-#   ports: 
-#     - "8082:4040"
-#   volumes:
-#     - ./dashboard/dashboard-config.json:/dashboard/dashboard-config.json
-#   command: --config dashboard-config.json --allowInsecureHTTP true   
+    - "9000:4040" 
 db:
   image: mongo
   ports: 
     - "27017:27017"
-# both:
-#   build: both
-#   links: 
-#     - db:mongo 
-#   ports: 
-#     - "8084:4040"
-#     - "8083:1337"
-#   volumes:
-#     - ./both/dashboard-config.json:/parse/dashboard-config.json
-#     - ./both/server-config.json:/parse/server-config.json 
-   
-# server-dev:
-#   build: server
-#   restart: always
-#   volumes:
-#     - ./server/server-config.json:/parse/server-config.json 
-#   ports: 
-#     - "8001:1337"
-#   links: 
-#     - db:mongo
-#   command: server-config.json 
-# server-pro:
-#   build: server
-#   restart: always
-#   volumes:
-#     - ./server/server-config.json:/parse/server-config.json 
-#   ports: 
-#     - "8002:1337"
-#   links: 
-#     - db:mongo
-#   command: server-config.json 
-# server-demo:
-#   build: server
-#   restart: always
-#   volumes:
-#     - ./server/server-config.json:/parse/server-config.json 
-#   ports: 
-#     - "8003:1337"
-#   links: 
-#     - db:mongo
-#   command: server-config.json 
