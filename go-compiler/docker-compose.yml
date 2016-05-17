@@ -1,0 +1,7 @@
+compiler:
+  image: golang
+  volumes: 
+    - ./src:/go/src
+  stdin_open: true
+  command: bash
+  
