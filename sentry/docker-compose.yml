@@ -1,0 +1,54 @@
+sentry:
+  image: sentry
+  environment:
+    - SENTRY_SECRET_KEY=b63e5c4b1780da4e3ab6a5dae804e42b2ad8f80f
+    - LETSENCRYPT_HOST=sentry.wizmacau.com
+    - LETSENCRYPT_EMAIL=it@wizmacau.com
+    - PORT=9000
+    - VIRTUAL_HOST=sentry.wizmacau.com
+    - SENTRY_SERVER_EMAIL=it@wizmacau.com
+    - SENTRY_EMAIL_HOST=192.168.20.210
+    - SENTRY_EMAIL_PORT=587
+    - SENTRY_EMAIL_USER=edm
+    - SENTRY_EMAIL_PASSWORD=bAw8jO0hiN0Relk6eUl6In2tAbr7Iat8
+    - SENTRY_EMAIL_USE_TLS=True
+    - SENTRY_DB_NAME=postgres
+    - SENTRY_REDIS_DB=2
+  links:
+    - "postgres:postgres"
+    - "redis:redis"
+  ports:
+    - "29000:9000"
+  extra_hosts:
+    - "paul.escher.wizmacau.com:192.168.20.22"
+  volumes:
+    - "./data/files:/var/lib/sentry/files"
+celery:
+  image: sentry
+  environment:
+    - SENTRY_SECRET_KEY=b63e5c4b1780da4e3ab6a5dae804e42b2ad8f80f
+    - SENTRY_DB_NAME=postgres
+    - SENTRY_REDIS_DB=2
+  links:
+    - "postgres:postgres"
+    - "redis:redis"
+  command:  celery worker
+beat:
+  image: sentry
+  environment:
+    - SENTRY_SECRET_KEY=b63e5c4b1780da4e3ab6a5dae804e42b2ad8f80f
+    - SENTRY_DB_NAME=postgres
+    - SENTRY_REDIS_DB=2
+  links:
+    - "postgres:postgres"
+    - "redis:redis"
+  command:  celery beat
+postgres:
+  image: postgres:9.4.1
+  environment:
+    - POSTGRES_USER=admin
+    - POSTGRES_PASSWORD=admin
+  volumes:
+    - "./postgres/data:/var/lib/postgresql/data"
+redis:
+  image: redis:2.8.19
