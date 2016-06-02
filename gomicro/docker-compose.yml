@@ -1,30 +1,26 @@
-dashboard:
-  build: dashboard
-  links: 
-    - web
-  ports: 
-    - "8085:3000"
 web:
-  build: web
+  build: micro
   links: 
     - consul
   ports: 
     - "8082:8082"
-  command: micro --registry_address=consul:8500 --register_interval=5 --register_ttl=10 web
+  command: --registry_address=consul:8500 --register_interval=5 --register_ttl=10 web
 consul:
   command: -server -bootstrap -rejoin 
   image: progrium/consul:latest
   ports:
   - "8500:8500"  
-# etcd:
-#   image: progrium/consul
-#   ports: 
-#     - 8500:8500
-#   restart: always
-#   command:
-#     -name discovery
-# micro:
-#   build: .
-#   restart: always
-#   command:
-#     bash
+api:
+  command: --registry_address=consul:8500 --register_interval=5 --register_ttl=10 api
+  build: micro
+  links:
+  - consul
+  ports:
+  - "8080:8080"
+sidecar:
+  command: --registry_address=consul:8500 --register_interval=5 --register_ttl=10 sidecar
+  build: micro
+  links:
+  - consul
+  ports:
+  - "8081:8081"
