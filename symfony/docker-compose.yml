@@ -1,0 +1,62 @@
+app:
+  build: code
+  volumes:
+    - /symfony-project-path:/symfony
+db:
+  image: mysql
+  ports:
+    - 3306:3306
+  environment:
+    MYSQL_ROOT_PASSWORD: root
+    MYSQL_DATABASE: symfony
+    MYSQL_USER: root
+    MYSQL_PASSWORD: root
+redis:
+  image: redis
+# php54:
+#   build: php54
+#   volumes:
+#     - ./config/php54/symfony.ini:/usr/local/etc/php/conf.d/symfony.ini
+#     - ./config/php54/php-fpm.conf:/etc/php-fpm.conf
+#   links:
+#     - db
+#     - redis
+#   volumes_from:
+#     - app
+php56:
+  build: php56
+  volumes:
+    - ./config/php56/symfony.ini:/usr/local/etc/php/conf.d/symfony.ini
+    - ./config/php56/php-fpm.conf:/etc/php-fpm.conf
+  links:
+    - db
+    - redis
+  volumes_from:
+    - app
+# php70:
+#   build: php70
+#   volumes:
+#     - ./config/php70/symfony.ini:/usr/local/etc/php/conf.d/symfony.ini
+#     - ./config/php70/php-fpm.conf:/etc/php-fpm.conf
+#   links:
+#     - db
+#     - redis
+#   volumes_from:
+#     - app
+nginx:
+  image: nginx
+  ports:
+    - 80:80
+  volumes:
+    - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+    - ./config/nginx/upstream.conf:/etc/nginx/conf.d/upstream.conf
+    # - ./config/nginx/php54.conf:/etc/nginx/conf.d/php54.conf
+    - ./config/nginx/php56.conf:/etc/nginx/conf.d/php56.conf
+    # - ./config/nginx/php70.conf:/etc/nginx/conf.d/php70.conf
+    - ./config/nginx/logs:/var/log/nginx
+  links:
+    # - php54
+    - php56
+    # - php70
+  volumes_from:
+    - app
