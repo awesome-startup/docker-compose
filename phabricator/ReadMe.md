@@ -1,0 +1,5 @@
+Command:
+
+
+
+docker-compose build
