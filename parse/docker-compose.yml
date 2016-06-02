@@ -1,25 +1,47 @@
-server:
+server1:
   image: dockerepo/parse-server
-  restart: always 
-  environment: 
-    - MONGO_DB_NAME=dev
-    - APP_ID=X4jwAIMI2sCuH99ueEI4c8LdTbgnkrR4u5kSqsc8
-    - MASTER_KEY=43p7s64k54z9uOKgztcC23CXx0cAM6RbdXObWfVt
-  ports: 
-    - "9001:1337"
+  ports:
+    - "9002:1337"
+  environment:
+    APP_ID: appId1
+    MASTER_KEY: masterKey1
+    MONGO_DB_NAME: dev1
+    PARSE_PUBLIC_ADDR: 192.168.20.24
+    PARSE_PUBLIC_PORT: 9002
   links: 
     - db:mongo
-dashboard:
-  image: dockerepo/parse-dashboard
-  restart: always
-  environment: 
-    - PARSE_PUBLIC_ADDR=192.168.20.24
-    - PARSE_PUBLIC_PORT=9001
-    - APP_ID=X4jwAIMI2sCuH99ueEI4c8LdTbgnkrR4u5kSqsc8
-    - MASTER_KEY=43p7s64k54z9uOKgztcC23CXx0cAM6RbdXObWfVt
-  ports: 
-    - "9000:4040" 
+server2:
+  image: dockerepo/parse-server
+  ports:
+    - "9003:1337"
+  environment:
+    APP_ID: appId2
+    MASTER_KEY: masterKey2
+    MONGO_DB_NAME: dev2
+    PARSE_PUBLIC_ADDR: 192.168.20.24
+    PARSE_PUBLIC_PORT: 9003
+  links: 
+    - db:mongo
+gitsource:
+  image: dockerepo/git
+  working_dir: /parse/src
+  labels:
+    io.rancher.container.start_once: 'true'
+  volumes: 
+    - /parse/src
+  command: clone https://gist.github.com/756f5533576dabedd6a3200fc67135cf.git index.js
 db:
   image: mongo
-  ports: 
-    - "27017:27017"
+  ports:
+  - "27017:27017"
+dashboard:
+  image: dockerepo/parse-dashboard
+  labels: 
+    io.rancher.sidekicks: gitsource
+  volumes_from: 
+    - gitsource
+  links: 
+    - server1:s1
+    - server2:s2
+  ports:
+    - "9100:4040"    
