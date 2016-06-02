@@ -1,0 +1,16 @@
+
+app:
+  image: tutum/tomcat:4.1
+  ports: 
+    - "8888:8080"
+  volumes:
+    - ../summer-web-local:/tomcat/webapps/ROOT
+# java:
+#   image: java:8-jdk
+#   volumes:
+#     - ../summer-web:/user/src/webapp
+#     - ./command:/user/src/webapp/WEB-INF/classes/docker-command
+#   working_dir: /user/src/webapp/WEB-INF/classes
+#   command:
+#     bash
+#   #   ./docker-command/command.sh

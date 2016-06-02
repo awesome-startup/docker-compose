@@ -1,0 +1,32 @@
+version: '2'
+services:
+  app:
+    image: tomcat:8.0-jre8
+    ports: 
+      - "8887:8080"
+    environment: 
+      - VIRTUAL_HOST=s.docker.local
+      - VIRTUAL_PORT=8080
+      - VIRTUAL_NETWORK=nginx-proxy
+    links: 
+      - db
+    volumes:
+      - ../summer-web:/usr/local/tomcat/webapps/ROOT
+  java:
+    image: java:8-jdk
+    volumes:
+      - ../summer-web:/user/src/webapp
+      - ./command:/user/src/webapp/WEB-INF/classes/docker-command
+    working_dir: /user/src/webapp/WEB-INF/classes
+    command:
+      bash
+    #   ./docker-command/command.sh
+  db:
+    image: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=summer
+      - MYSQL_DATABASE=summer03
+      - MYSQL_USER=summer
+      - MYSQL_PASSWORD=summer

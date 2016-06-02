@@ -1,0 +1,41 @@
+nginx:
+  image: nginx
+  ports: 
+    - "29000:443"
+  volumes: 
+    - "/etc/nginx/conf.d"
+    - "/etc/nginx/vhost.d"
+    - "/usr/share/nginx/html"
+    - "./certs:/etc/nginx/certs:ro"
+gen:
+  image: jwilder/docker-gen
+  volumes_from: nginx
+  volumes:
+    - "/etc/docker-gen/templates/nginx.tmpl:ro"
+    - "/var/run/docker.sock:/tmp/docker.sock:ro"
+  command: 
+    -notify-sighup nginx -watch -only-exposed -wait 5s:30s /etc/docker-gen/templates/nginx.tmpl /etc/nginx/conf.d/default.conf
+letsencrypt:
+  image: jrcs/letsencrypt-nginx-proxy-companion
+  volumes_from: nginx
+  volumes: 
+    - "./certs:/etc/nginx/certs:rw"
+     - "/var/run/docker.sock:/tmp/docker.sock:ro"        
+sentry:
+  image: slafs/sentry
+  env_file:
+    - "environment"
+  environment:
+    - LETSENCRYPT_HOST=sentry.escher.wizmacau.com
+    - LETSENCRYPT_EMAIL=it@wizmacau.com
+  links:
+    - "postgres:postgresdb"
+    - "redis:redis"
+  ports:
+    - "29000:9000"
+  volumes:
+    - "/home/docker-compose/sentry/data:/data"
+postgres:
+  image: postgres:9.4.1
+redis:
+  image: redis:2.8.19
