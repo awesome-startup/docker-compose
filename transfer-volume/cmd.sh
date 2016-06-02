@@ -1,0 +1,1 @@
+docker run --rm -v <path>:/from alpine ash -c "cd /from ; tar -cf - . " | ssh <another-host> 'docker run --rm -i -v <path>:/to alpine ash -c "cd /to ; tar -xvf - " '
