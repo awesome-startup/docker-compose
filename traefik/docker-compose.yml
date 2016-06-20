@@ -1,0 +1,39 @@
+traefik:
+  image: traefik
+  command: --web --docker --docker.domain=localhost --logLevel=DEBUG
+  ports:
+    - "80:80"
+    - "8080:8080"
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - /dev/null:/traefik.toml
+
+whoami1:
+  image: emilevauge/whoami
+  labels:
+    - "traefik.backend=whoami"
+    - "traefik.frontend.rule=Host:whoami.localhost"
+
+whoami2:
+  image: emilevauge/whoami
+  labels:
+    - "traefik.backend=whoami"
+    - "traefik.frontend.rule=Host:whoami.localhost"
+gitsource:
+  image: dockerepo/git
+  working_dir: /go/src/github.com/llitfkitfk/cirkol
+  volumes: 
+    - /go/src/github.com/llitfkitfk/cirkol
+  command: clone https://github.com/CrawlApi/go-crawl.git .
+api:
+  image: dockerepo/glide
+  labels:
+    - "traefik.backend=apiserver"
+    - "traefik.port=10086"
+    - "traefik.frontend.rule=Host:apiserver.localhost"
+  volumes_from: 
+    - gitsource
+  working_dir: /go/src/github.com/llitfkitfk/cirkol
+  stdin_open: true
+  command: bash -c "glide install && go run apiServer.go"
+
