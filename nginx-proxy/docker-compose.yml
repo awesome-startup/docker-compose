@@ -1,12 +1,28 @@
-nginx:
-  image: jwilder/nginx-proxy
-  ports:
-    - "80:80"
-    - "443:443"
-  restart: always
-  volumes:
-    - ./certs:/etc/nginx/certs:rw
-    - .conf.d:/etc/nginx/conf.d
-    - /etc/nginx/vhost.d
-    - /usr/share/nginx/html
-    - /var/run/docker.sock:/tmp/docker.sock:ro
+version: '2'
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./certs:/etc/nginx/certs:rw
+      - /etc/nginx/vhost.d
+      - /usr/share/nginx/html
+  letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    volumes: 
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./certs:/etc/nginx/certs:rw
+    volumes_from: 
+      - nginx-proxy
+  whoami:
+    image: jwilder/whoami
+    container_name: whoami
+    environment:
+      # - LETSENCRYPT_HOST=whoami.localhost
+      # - LETSENCRYPT_EMAIL=llitfkitfk@gmail.com
+      - VIRTUAL_HOST=whoami.localhost
