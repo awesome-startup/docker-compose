@@ -1,0 +1,12 @@
+version: '2'
+services:
+  node1:
+    image: docker:1.12.0-rc2-dind
+    privileged: true
+    container_name: node1
+    networks:
+        - outside
+networks:
+  outside:
+    external:
+      name: host
