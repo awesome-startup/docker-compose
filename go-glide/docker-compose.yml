@@ -6,7 +6,7 @@ server:
     - gitsource
   working_dir: /go/src/github.com/llitfkitfk/cirkol
   stdin_open: true
-  command: bash -c "glide install && go run apiServer.go"
+  command: go run apiServer.go
 gitsource:
   image: dockerepo/git
   working_dir: /go/src/github.com/llitfkitfk/cirkol
