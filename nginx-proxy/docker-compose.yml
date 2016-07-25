@@ -1,7 +1,7 @@
 version: '2'
 services:
   nginx-proxy:
-    image: jwilder/nginx-proxy
+    image: jwilder/nginx-proxy:0.3.0
     container_name: nginx-proxy
     ports:
       - "80:80"
@@ -9,20 +9,14 @@ services:
     restart: always
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./certs:/etc/nginx/certs:rw
+      - /root/certs:/etc/nginx/certs:rw
       - /etc/nginx/vhost.d
+      - ./nginx/conf.d:/etc/nginx/conf.d
       - /usr/share/nginx/html
-  letsencrypt:
-    image: jrcs/letsencrypt-nginx-proxy-companion
-    volumes: 
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./certs:/etc/nginx/certs:rw
-    volumes_from: 
-      - nginx-proxy
-  whoami:
-    image: jwilder/whoami
-    container_name: whoami
-    environment:
-      # - LETSENCRYPT_HOST=whoami.localhost
-      # - LETSENCRYPT_EMAIL=llitfkitfk@gmail.com
-      - VIRTUAL_HOST=whoami.localhost
+  # letsencrypt:
+  #   image: jrcs/letsencrypt-nginx-proxy-companion
+  #   volumes: 
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+  #     - /root/certs:/etc/nginx/certs:rw
+  #   volumes_from: 
+  #     - nginx-proxy
