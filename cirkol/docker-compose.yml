@@ -1,0 +1,15 @@
+server:
+  image: dockerepo/glide
+  ports:
+    - "10087:10086"
+  volumes_from: 
+    - gitsource
+  working_dir: /go/src/github.com/llitfkitfk/cirkol
+  tty: true
+  command: go run apiServer.go
+gitsource:
+  image: dockerepo/git
+  working_dir: /go/src/github.com/llitfkitfk/cirkol
+  volumes: 
+    - /go/src/github.com/llitfkitfk/cirkol
+  command: clone https://github.com/CrawlApi/go-crawl.git .
