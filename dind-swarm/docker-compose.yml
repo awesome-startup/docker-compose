@@ -1,12 +1,20 @@
 version: '2'
+
 services:
-  node1:
+  dind:
     image: docker:1.12.0-rc2-dind
     privileged: true
-    container_name: node1
-    networks:
-        - outside
-networks:
-  outside:
+    ports: 
+      - "2377:2377"
+    volumes: 
+      - data:/var/lib/docker
+    container_name: dind
+  client:
+    image: docker:1.12.0-rc2
+    links: 
+      - dind:docker
+    command: version
+volumes:
+  data:
     external:
-      name: host
+      name: docker-data

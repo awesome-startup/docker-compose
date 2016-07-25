@@ -1,0 +1,20 @@
+dind:
+  image: docker:1.12.0-rc2-dind
+  privileged: true
+  ports: 
+    - "2377:2377"
+  labels:
+    io.rancher.container.hostname_override: container_name
+    io.rancher.container.pull_image: 'always'
+    io.rancher.sidekicks: dind-data
+  volumes: 
+    - data:/var/lib/docker
+  container_name: dind
+dind-data:
+  image: alpine
+  labels:
+    io.rancher.container.start_once: 'true'
+    io.rancher.container.hostname_override: container_name
+  volumes: 
+    - /var/lib/docker
+  command: sh
