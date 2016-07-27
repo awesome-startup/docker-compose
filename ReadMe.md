@@ -24,3 +24,15 @@ docker volume rm $(docker volume ls -q)
 ```
 docker rmi $(docker images | grep '<none>' | awk '{print $3}')
 ```
+
+
+### Change Docker Dir
+```
+docker ps -q | xargs docker kill
+stop docker
+cd /var/lib/docker/devicemapper/mnt
+umount ./*
+mv /var/lib/docker $dest
+ln -s $dest /var/lib/docker
+start docker
+```
