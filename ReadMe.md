@@ -36,3 +36,33 @@ mv /var/lib/docker $dest
 ln -s $dest /var/lib/docker
 start docker
 ```
+
+
+### Bash Completion
+Linux:
+
+```
+curl -L https://raw.githubusercontent.com/docker/compose/$(docker-compose version --short)/contrib/completion/bash/docker-compose > /etc/bash_completion.d/docker-compose
+curl -L https://raw.githubusercontent.com/docker/docker/v$(docker version -f "{{.Server.Version}}")/contrib/completion/bash/docker > /etc/bash_completion.d/docker
+```
+
+Mac:
+```
+curl -L https://raw.githubusercontent.com/docker/compose/$(docker-compose version --short)/contrib/completion/bash/docker-compose > /usr/local/etc/bash_completion.d/docker-compose
+curl -L https://raw.githubusercontent.com/docker/docker/v$(docker version -f "{{.Server.Version}}")/contrib/completion/bash/docker > /usr/local/etc/bash_completion.d/docker
+
+files=(docker-machine docker-machine-wrapper docker-machine-prompt)
+for f in "${files[@]}"; do
+  curl -L https://raw.githubusercontent.com/docker/machine/v$(docker-machine --version | tr -ds ',' ' ' | awk 'NR==1{print $(3)}')/contrib/completion/bash/$f.bash > /usr/local/etc/bash_completion.d/$f
+done
+
+```
+
+
+### Zsh Completion
+
+```
+curl -L https://raw.githubusercontent.com/docker/machine/v$(docker-machine --version | tr -ds ',' ' ' | awk 'NR==1{print $(3)}')/contrib/completion/zsh/_docker-machine > ~/.zsh/completion/_docker-machine
+curl -L https://raw.githubusercontent.com/docker/compose/$(docker-compose version --short)/contrib/completion/zsh/_docker-compose > ~/.zsh/completion/_docker-compose
+curl -L https://raw.githubusercontent.com/docker/docker/v$(docker version -f "{{.Server.Version}}")/contrib/completion/zsh/_docker > ~/.zsh/completion/_docker
+```
