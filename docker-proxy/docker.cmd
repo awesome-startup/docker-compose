@@ -1,1 +1,1 @@
-docker run -p 2375:2375 -v /var/run/docker.sock:/var/run/docker.sock -d --restart=always  --name docker-proxy ehazlett/docker-proxy:latest
+docker run -d -p 2375:2375 --restart=always     --name shipyard-proxy     -v /var/run/docker.sock:/var/run/docker.sock     -e PORT=2375     shipyard/docker-proxy:latest
