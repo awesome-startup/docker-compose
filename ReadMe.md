@@ -1,4 +1,16 @@
 
+### Install docker
+
+```
+
+sudo yum update
+
+curl -fsSL https://get.docker.com/ | sh
+
+sudo service docker start
+sudo docker run hello-world
+```
+
 ### docker update 
 
 * need add parameters to docker daemon
