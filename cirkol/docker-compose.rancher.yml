@@ -1,21 +1,8 @@
-glide-server:
-  image: dockerepo/glide:latest
-  volumes_from:
-    - glide-source
-  command: go run apiServer.go
+server:
+  image: dockerepo/godep
   ports:
-    - "10089:10086"
+    - "10087:10086"
   working_dir: /go/src/github.com/llitfkitfk/cirkol
-  labels:
-    io.rancher.container.hostname_override: container_name
-    io.rancher.container.pull_image: 'always'
-    io.rancher.sidekicks: glide-source
-glide-source:
-  image: dockerepo/git:latest
-  working_dir: /go/src/github.com/llitfkitfk/cirkol
-  labels: 
-    io.rancher.container.start_once: 'true'
-    io.rancher.container.hostname_override: container_name
-  volumes: 
-    - /go/src/github.com/llitfkitfk/cirkol
-  command: clone https://github.com/CrawlApi/go-crawl.git .
+  tty: true
+  entrypoint: ""
+  command: sh -c "git clone https://github.com/CrawlApi/go-crawl.git . || git pull origin master && godep restore && go run apiServer.go"
