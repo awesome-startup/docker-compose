@@ -1,0 +1,1 @@
+docker run -it -d -p 8000:8000 -e PORT=8000 -e HOST=localhost -v /var/run/docker.sock:/var/run/docker.sock  manomarks/visualizer
