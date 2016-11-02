@@ -1,0 +1,5 @@
+composer:
+    image: dockerepo/composer
+    stdin_open: true
+    entrypoint: sh
+    tty: true

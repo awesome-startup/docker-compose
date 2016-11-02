@@ -9,14 +9,16 @@ db:
     MYSQL_PASSWORD: root
 app:
   image: dockerepo/symfony
+  ports:
+    - 9000:9000
   volumes:
     - ./config/php70/symfony.ini:/usr/local/etc/php/conf.d/symfony.ini
-    - ./config/php70/php-fpm.conf:/etc/php-fpm.conf
-    - /Users/llitfkitfk/Documents/git/app/symfony-starter:/symfony
+    - ./config/php70/php-fpm.conf:/usr/local/etc/php-fpm.conf
+    - /Users/llitfkitfk/Documents/git/app/symfony:/symfony
   links:
     - db
 nginx:
-  image: nginx
+  image: dockerepo/nginx
   ports:
     - 80:80
   volumes:
@@ -26,3 +28,10 @@ nginx:
     - ./config/nginx/logs:/var/log/nginx
   links:
     - app
+composer:
+  image: dockerepo/composer
+  entrypoint: sh
+  stdin_open: true
+  tty: true
+  volumes:
+    - /Users/llitfkitfk/Documents/git/app/symfony:/app
