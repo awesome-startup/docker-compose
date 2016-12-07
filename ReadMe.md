@@ -84,3 +84,8 @@ curl -L https://raw.githubusercontent.com/docker/machine/v$(docker-machine --ver
 curl -L https://raw.githubusercontent.com/docker/compose/$(docker-compose version --short)/contrib/completion/zsh/_docker-compose > ~/.zsh/completion/_docker-compose
 curl -L https://raw.githubusercontent.com/docker/docker/v$(docker version -f "{{.Server.Version}}")/contrib/completion/zsh/_docker > ~/.zsh/completion/_docker
 ```
+
+### Kill process in docker container tomcat
+```
+docker exec tomcat sh -c 'kill `ps -aux | grep java|grep -v grep | awk -F " " '"'"'{print $2}'"'"'`'
+```
