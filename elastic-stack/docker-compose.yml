@@ -1,0 +1,29 @@
+version: '2'
+services:
+    # tomcat:
+    #     image: tomcat
+    #     ports: 
+    #         - 8080:8080
+    #     volumes: 
+    #         - /usr/local/tomcat/logs
+    logstash:
+        image: logstash:2.4
+        volumes_from: 
+            - container:symfony_nginx_1
+        links: 
+            - elasticsearch:elasticsearch
+        ports: 
+            - 5000:5000
+        volumes: 
+            - ./logstash/logstash.conf:/etc/logstash/conf.d/logstash.conf
+        command: -f '/etc/logstash/conf.d/logstash.conf'
+    elasticsearch:
+        image: elasticsearch:2.4
+        ports: 
+            - 9200:9200
+    kibana:
+        image: kibana:4.6
+        links: 
+            - elasticsearch:elasticsearch
+        ports: 
+            - 5601:5601
