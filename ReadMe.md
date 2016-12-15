@@ -13,7 +13,7 @@ sudo docker run hello-world
 
 ### Install docker-compose
 ```
-curl -L https://github.com/docker/compose/releases/download/1.8.0/run.sh > /usr/local/bin/docker-compose
+curl -L "https://github.com/docker/compose/releases/download/1.9.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 ```
 
@@ -88,4 +88,12 @@ curl -L https://raw.githubusercontent.com/docker/docker/v$(docker version -f "{{
 ### Kill process in docker container tomcat
 ```
 docker exec tomcat sh -c 'kill `ps -aux | grep java|grep -v grep | awk -F " " '"'"'{print $2}'"'"'`'
+```
+
+Backup: 
+
+[Link](http://stackoverflow.com/questions/26331651/how-can-i-backup-a-docker-container-with-its-data-volumes/26339869#26339869)
+
+```
+docker run --rm --volumes-from container-name -v $(pwd):/backup -w container-backup-dir busybox tar cvf /backup/backup.tar .
 ```
