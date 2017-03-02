@@ -60,8 +60,8 @@ start docker
 Linux:
 
 ```
-curl -L https://raw.githubusercontent.com/docker/compose/$(docker-compose version --short)/contrib/completion/bash/docker-compose > /etc/bash_completion.d/docker-compose
-curl -L https://raw.githubusercontent.com/docker/docker/v$(docker version -f "{{.Server.Version}}")/contrib/completion/bash/docker > /etc/bash_completion.d/docker
+curl -L https://raw.githubusercontent.com/docker/compose/$(docker-compose version --short)/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
+curl -L https://raw.githubusercontent.com/docker/docker/v$(docker version -f "{{.Server.Version}}")/contrib/completion/bash/docker -o /etc/bash_completion.d/docker
 ```
 
 Mac:
