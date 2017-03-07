@@ -4,7 +4,7 @@ docker service create \
     --publish 80:80 --publish 8080:8080 \
     --mount type=bind,source=/var/run/docker.sock,destination=/var/run/docker.sock \
     --network traefik-prod \
-    traefik:1.1.2 \
+    traefik:morbier \
     --docker \
     --docker.swarmmode \
     --docker.domain=swarm.gokit.info \
@@ -42,6 +42,7 @@ docker service create \
     --network traefik-prod \
     --label traefik.port=9000 \
     --constraint=node.role==manager \
+    --mount type=volume,src=portainer-prod,dst=/data \
     --mount type=bind,source=/var/run/docker.sock,destination=/var/run/docker.sock \
     portainer/portainer \
     -H unix:///var/run/docker.sock

@@ -97,3 +97,17 @@ Backup:
 ```
 docker run --rm --volumes-from container-name -v $(pwd):/backup -w container-backup-dir busybox tar cvf /backup/backup.tar .
 ```
+
+
+### docker daemon config
+
+```
+sudo mkdir -p /etc/docker && \
+sudo tee /etc/docker/daemon.json <<-'EOF'
+{
+  "registry-mirrors": ["https://XXXXXX.mirror.aliyuncs.com"]
+}
+EOF
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+```
