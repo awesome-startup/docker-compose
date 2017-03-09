@@ -111,3 +111,20 @@ EOF
 sudo systemctl daemon-reload
 sudo systemctl restart docker
 ```
+
+
+### tar backup & restore
+
+```
+tar -cvf ~/backupportainer.tar .
+
+tar -xvpf ~/backupportainer.tar -C /var/lib/docker/volumes
+
+```
+
+
+### colorful bash
+
+```
+export PS1="[\e[37;40m\][\[\e[32;40m\]\u\[\e[37;40m\]@\h \[\e[35;40m\]\W\[\e[0m\]]"
+```

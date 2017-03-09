@@ -3,7 +3,7 @@ docker service create \
     --constraint=node.role==manager \
     --publish 80:80 --publish 8080:8080 \
     --mount type=bind,source=/var/run/docker.sock,destination=/var/run/docker.sock \
-    --network traefik-prod \
+    --network traefik-net \
     traefik:morbier \
     --docker \
     --docker.swarmmode \
@@ -15,11 +15,11 @@ docker service create \
 docker service create \
     --name whoami \
     --label traefik.port=80 \
-    --network traefik-prod \
+    --network traefik-net \
     emilevauge/whoami
 
 docker service create \
-    --network traefik-prod \
+    --network traefik-net \
     --name=viz \
     --label traefik.port=8080 \
     --constraint=node.role==manager \
@@ -28,7 +28,7 @@ docker service create \
 
 docker service create \
     --mode global \
-    --network traefik-prod \
+    --network traefik-net \
     --mount type=bind,source=/,destination=/rootfs,ro=1 \
     --mount type=bind,source=/var/run,destination=/var/run \
     --mount type=bind,source=/sys,destination=/sys,ro=1 \
@@ -39,7 +39,7 @@ docker service create \
 
 docker service create \
     --name admin \
-    --network traefik-prod \
+    --network traefik-net \
     --label traefik.port=9000 \
     --constraint=node.role==manager \
     --mount type=volume,src=portainer-prod,dst=/data \
