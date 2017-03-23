@@ -1,10 +1,10 @@
 docker service create \
     --name traefik-prod \
     --constraint=node.role==manager \
-    --publish 80:80 --publish 8080:8080 \
+    --publish 80:80 \
     --mount type=bind,source=/var/run/docker.sock,destination=/var/run/docker.sock \
     --network traefik-net \
-    traefik:morbier \
+    traefik \
     --docker \
     --docker.swarmmode \
     --docker.domain=swarm.gokit.info \
@@ -17,6 +17,14 @@ docker service create \
     --label traefik.port=80 \
     --network traefik-net \
     emilevauge/whoami
+
+docker service create \
+    --network traefik-net \
+    --name=dash \
+    --env DASH_PORT_8080_TCP=tcp://traefik-prod:8080 \
+    --label traefik.port=8080 \
+    --constraint=node.role==manager \
+    svendowideit/ambassador
 
 docker service create \
     --network traefik-net \
@@ -46,3 +54,10 @@ docker service create \
     --mount type=bind,source=/var/run/docker.sock,destination=/var/run/docker.sock \
     portainer/portainer \
     -H unix:///var/run/docker.sock
+
+
+docker service create \
+    --name vaultier \
+    --label traefik.port=80 \
+    --network traefik-net \
+    rclick/vaultier:latest

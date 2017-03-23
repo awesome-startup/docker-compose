@@ -46,13 +46,15 @@ docker rmi $(docker images | grep '<none>' | awk '{print $3}')
 
 ### Change Docker Dir
 ```
+$dest=/mnt/docker
+
 docker ps -q | xargs docker kill
-stop docker
+systemctl stop docker
 cd /var/lib/docker/devicemapper/mnt
 umount ./*
 mv /var/lib/docker $dest
 ln -s $dest /var/lib/docker
-start docker
+systemctl start docker
 ```
 
 
@@ -66,6 +68,10 @@ curl -L https://raw.githubusercontent.com/docker/docker/v$(docker version -f "{{
 
 Mac:
 ```
+ln -s /Applications/Docker.app/Contents/Resources/etc/docker.bash-completion /usr/local/etc/bash_completion.d/docker
+ln -s /Applications/Docker.app/Contents/Resources/etc/docker-machine.bash-completion /usr/local/etc/bash_completion.d/docker-machine
+ln -s /Applications/Docker.app/Contents/Resources/etc/docker-compose.bash-completion /usr/local/etc/bash_completion.d/docker-compose
+
 curl -L https://raw.githubusercontent.com/docker/compose/$(docker-compose version --short)/contrib/completion/bash/docker-compose > /usr/local/etc/bash_completion.d/docker-compose
 curl -L https://raw.githubusercontent.com/docker/docker/v$(docker version -f "{{.Server.Version}}")/contrib/completion/bash/docker > /usr/local/etc/bash_completion.d/docker
 

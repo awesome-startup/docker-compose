@@ -1,0 +1,41 @@
+version: '2'
+
+services:
+  # migrate: #just run once
+  #   image: cabotapp/cabot
+  #   command: cabot migrate
+  #   env_file: 
+  #     - production.env
+  #   links:
+  #     - postgres:postgres
+  #     - redis:redis
+  app:
+    image: cabotapp/cabot
+    command: gunicorn cabot.wsgi:application -b 0.0.0.0:5000
+    env_file: 
+      - production.env
+    ports: 
+      - 5000:5000
+    links:
+      - postgres:postgres
+      - redis:redis
+  worker:
+    image: cabotapp/cabot
+    command: celery worker -A cabot
+    env_file: 
+      - production.env
+    links:
+      - postgres:postgres
+      - redis:redis
+  beat:
+    image: cabotapp/cabot
+    command: celery beat -A cabot
+    env_file: 
+      - production.env
+    links:
+      - postgres:postgres
+      - redis:redis
+  postgres:
+    image: postgres
+  redis:
+    image: redis
