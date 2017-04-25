@@ -1,3 +1,4 @@
 jenkins/data
 prometheus/
 cirkol/data/
+traefik/admin
