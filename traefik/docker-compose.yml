@@ -1,39 +1,48 @@
-traefik:
-  image: traefik
-  command: --web --docker --docker.domain=localhost --logLevel=DEBUG
-  ports:
-    - "80:80"
-    - "8080:8080"
-  volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-    - /dev/null:/traefik.toml
+version: '2'
 
-# whoami1:
-#   image: emilevauge/whoami
-#   labels:
-#     - "traefik.backend=whoami"
-#     - "traefik.frontend.rule=Host:whoami.localhost"
-
-# whoami2:
-#   image: emilevauge/whoami
-#   labels:
-#     - "traefik.backend=whoami"
-#     - "traefik.frontend.rule=Host:whoami.localhost"
-# gitsource:
-#   image: dockerepo/git
-#   working_dir: /go/src/github.com/llitfkitfk/cirkol
-#   volumes: 
-#     - /go/src/github.com/llitfkitfk/cirkol
-#   command: clone https://github.com/CrawlApi/go-crawl.git .
-# api:
-#   image: dockerepo/glide
-#   labels:
-#     - "traefik.backend=apiserver"
-#     - "traefik.port=10086"
-#     - "traefik.frontend.rule=Host:apiserver.localhost"
-#   volumes_from: 
-#     - gitsource
-#   working_dir: /go/src/github.com/llitfkitfk/cirkol
-#   stdin_open: true
-#   command: bash -c "glide install && go run apiServer.go"
-
+services:
+  app:
+    image: traefik
+    command: --web --docker --docker.domain=gokit.info
+    restart: always
+    networks:
+      - webgateway
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /dev/null:/traefik.toml
+  whoami:
+    image: emilevauge/whoami
+    networks:
+      - webgateway
+    labels:
+      - "traefik.backend=whoami"
+      - "traefik.frontend.rule=Host:whoami.gokit.info"
+  admin:
+    image: portainer/portainer
+    command: -H unix:///var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./admin/data:/data
+    labels:
+      - "traefik.port=9000"
+      - "traefik.backend=admin"
+      - "traefik.frontend.rule=Host:admin.gokit.info"
+    networks:
+      - webgateway
+  dash:
+    image: svendowideit/ambassador
+    links: 
+      - app
+    labels:
+      - "traefik.port=8080"
+      - "traefik.backend=dash"
+      - "traefik.frontend.rule=Host:dash.gokit.info"
+    environment: 
+      - DASH_PORT_8080_TCP=tcp://app:8080
+    networks:
+      - webgateway
+networks:
+  webgateway:
+    driver: bridge        
