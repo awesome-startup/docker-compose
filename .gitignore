@@ -2,3 +2,5 @@ jenkins/data
 prometheus/
 cirkol/data/
 traefik/admin
+traefik/db
+*.override.yml
