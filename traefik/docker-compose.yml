@@ -3,12 +3,13 @@ version: '2'
 services:
   app:
     image: traefik
-    command: --web --docker --docker.domain=gokit.info
+    command: --defaultEntryPoints=http,https --entryPoints='Name:http Address::80 Redirect.EntryPoint:https' --entryPoints='Name:https Address::443 TLS' --acme --acme.entrypoint=https --acme.OnHostRule --acme.domains=gokit.info --acme.storage=acme.json --acme.email=llitfkitfk@gmail.com --web --docker --docker.domain=gokit.info
     restart: always
     networks:
       - webgateway
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /dev/null:/traefik.toml
