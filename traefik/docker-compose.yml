@@ -3,7 +3,7 @@ version: '2'
 services:
   app:
     image: traefik
-    command: --defaultEntryPoints=http,https --entryPoints='Name:http Address::80 Redirect.EntryPoint:https' --entryPoints='Name:https Address::443 TLS' --acme --acme.entrypoint=https --acme.OnHostRule --acme.domains=gokit.info --acme.storage=acme.json --acme.email=llitfkitfk@gmail.com --web --docker --docker.domain=gokit.info
+    command: --web --docker --docker.domain=gokit.info
     restart: always
     networks:
       - webgateway
