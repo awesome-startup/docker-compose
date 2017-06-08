@@ -13,8 +13,9 @@ docker service create \
 
 
 docker service create \
-    --name whoami \
+    --name whoami2 \
     --label traefik.port=80 \
+    --label traefik.backend.loadbalancer.method=drr \
     --network traefik-net \
     emilevauge/whoami
 
